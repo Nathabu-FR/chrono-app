@@ -19,23 +19,24 @@
     --mono:    'DM Mono', monospace;
     --sans:    'Syne', sans-serif;
   }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html, body {
-    height: 100%;
-    overflow: hidden;
-  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     background: var(--bg);
     color: var(--text);
     font-family: var(--sans);
+    min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 2rem 1.2rem;
+    overflow-x: hidden;
     position: relative;
   }
 
+  /* ── fond grille ── */
   body::before {
     content: '';
     position: fixed;
@@ -48,55 +49,57 @@
     z-index: 0;
   }
 
+  /* ── orbes de lumière ── */
   .orb {
     position: fixed;
     border-radius: 50%;
-    filter: blur(100px);
+    filter: blur(120px);
     pointer-events: none;
     z-index: 0;
   }
-  .orb-1 { width: 500px; height: 500px; background: rgba(79,124,255,0.1); top: -180px; left: -120px; }
-  .orb-2 { width: 400px; height: 400px; background: rgba(255,107,53,0.07); bottom: -120px; right: -80px; }
+  .orb-1 { width: 600px; height: 600px; background: rgba(79,124,255,0.12); top: -200px; left: -150px; }
+  .orb-2 { width: 500px; height: 500px; background: rgba(255,107,53,0.08); bottom: -150px; right: -100px; }
 
+  /* ── wrapper ── */
   .wrapper {
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 700px;
-    padding: 0 1.2rem;
+    max-width: 680px;
     display: flex;
     flex-direction: column;
-    gap: 1.1rem;
-    animation: fadeUp 0.6s ease both;
+    gap: 2rem;
   }
 
-  /* ── header compact ── */
-  .header { text-align: center; }
-
+  /* ── header ── */
+  .header {
+    text-align: center;
+    animation: fadeUp 0.7s ease both;
+  }
   .badge {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
     font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.16em;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--accent);
     background: rgba(79,124,255,0.1);
-    border: 1px solid rgba(79,124,255,0.22);
-    padding: 0.25rem 0.7rem;
+    border: 1px solid rgba(79,124,255,0.25);
+    padding: 0.3rem 0.8rem;
     border-radius: 999px;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.2rem;
   }
-  .badge::before { content: '●'; font-size: 0.45rem; animation: blink 1.8s infinite; }
+  .badge::before { content: '●'; font-size: 0.5rem; animation: blink 1.8s infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
   h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(2.8rem, 7vw, 4.2rem);
     font-weight: 800;
     letter-spacing: -0.04em;
     line-height: 1;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.7rem;
   }
   h1 span {
     background: linear-gradient(135deg, var(--accent) 0%, #a78bff 50%, var(--accent2) 100%);
@@ -105,29 +108,32 @@
     background-clip: text;
   }
   .subtitle {
-    font-size: 0.82rem;
+    font-size: 0.95rem;
     color: var(--muted);
-    line-height: 1.5;
+    letter-spacing: 0.02em;
+    line-height: 1.6;
   }
 
   /* ── cards ── */
   .cards {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.9rem;
+    gap: 1rem;
+    animation: fadeUp 0.7s 0.15s ease both;
   }
 
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.3rem 1.2rem;
+    border-radius: 20px;
+    padding: 1.8rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
+    gap: 1rem;
     position: relative;
     overflow: hidden;
     transition: border-color 0.25s, transform 0.25s;
+    cursor: default;
   }
   .card::before {
     content: '';
@@ -139,49 +145,52 @@
   }
   .card.online::before  { background: radial-gradient(circle at top left, rgba(79,124,255,0.1), transparent 60%); }
   .card.desktop::before { background: radial-gradient(circle at top left, rgba(255,107,53,0.1), transparent 60%); }
-  .card:hover { border-color: rgba(255,255,255,0.13); transform: translateY(-2px); }
+  .card:hover { border-color: rgba(255,255,255,0.14); transform: translateY(-3px); }
   .card:hover::before { opacity: 1; }
 
-  .card-top { display: flex; align-items: center; gap: 0.7rem; }
   .card-icon {
-    width: 36px; height: 36px;
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
   }
   .card.online  .card-icon { background: rgba(79,124,255,0.15); }
   .card.desktop .card-icon { background: rgba(255,107,53,0.15); }
 
   .card-label {
     font-family: var(--mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.13em;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--muted);
+    margin-bottom: 0.15rem;
   }
   .card h2 {
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-weight: 800;
     letter-spacing: -0.02em;
-    line-height: 1.1;
   }
   .card p {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: var(--muted);
-    line-height: 1.5;
+    line-height: 1.55;
+    flex: 1;
   }
 
-  /* ── boutons ── */
-  .btn {
+  /* ── boutons principaux ── */
+  .btn-main {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.45rem;
-    padding: 0.6rem 0.9rem;
-    border-radius: 9px;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
     font-family: var(--sans);
     font-weight: 700;
-    font-size: 0.78rem;
+    font-size: 0.85rem;
     text-decoration: none;
     border: none;
     cursor: pointer;
@@ -189,21 +198,27 @@
     position: relative;
     z-index: 1;
   }
-  .btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .btn-main svg { width: 16px; height: 16px; flex-shrink: 0; }
 
   .btn-online {
     background: var(--accent);
     color: #fff;
-    box-shadow: 0 6px 22px rgba(79,124,255,0.35);
+    box-shadow: 0 8px 28px rgba(79,124,255,0.35);
   }
-  .btn-online:hover { background: #6b92ff; transform: translateY(-1px); }
+  .btn-online:hover { background: #6b92ff; transform: translateY(-1px); box-shadow: 0 12px 36px rgba(79,124,255,0.5); }
 
+  /* ── download group ── */
+  .dl-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
   .btn-exe {
     background: var(--accent2);
     color: #fff;
-    box-shadow: 0 6px 22px rgba(255,107,53,0.3);
+    box-shadow: 0 8px 28px rgba(255,107,53,0.3);
   }
-  .btn-exe:hover { background: #ff8255; transform: translateY(-1px); }
+  .btn-exe:hover { background: #ff8255; transform: translateY(-1px); box-shadow: 0 12px 36px rgba(255,107,53,0.45); }
 
   .btn-zip {
     background: rgba(255,255,255,0.05);
@@ -212,62 +227,70 @@
   }
   .btn-zip:hover { background: rgba(255,255,255,0.09); transform: translateY(-1px); }
 
-  .dl-group { display: flex; flex-direction: column; gap: 0.4rem; }
-
   .dl-note {
     font-family: var(--mono);
-    font-size: 0.58rem;
+    font-size: 0.62rem;
     color: var(--muted);
     text-align: center;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
   }
 
-  .version-tag {
-    font-family: var(--mono);
-    font-size: 0.56rem;
-    color: var(--green);
-    background: rgba(46,204,135,0.1);
-    border: 1px solid rgba(46,204,135,0.2);
-    padding: 0.15rem 0.45rem;
-    border-radius: 999px;
-    display: inline-block;
-  }
-
-  /* ── séparateur + repo ── */
-  .footer-row {
+  /* ── séparateur ── */
+  .sep {
     display: flex;
     align-items: center;
     gap: 1rem;
+    animation: fadeUp 0.7s 0.3s ease both;
   }
   .sep-line { flex: 1; height: 1px; background: var(--border); }
+  .sep-txt { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; white-space: nowrap; }
 
+  /* ── bouton repo ── */
   .btn-repo {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.65rem 1.4rem;
+    border-radius: 10px;
     background: transparent;
     border: 1px solid var(--border);
     color: var(--muted);
     font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.05em;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
     text-decoration: none;
+    cursor: pointer;
     transition: all 0.22s;
-    white-space: nowrap;
+    align-self: center;
+    animation: fadeUp 0.7s 0.35s ease both;
   }
-  .btn-repo svg { width: 13px; height: 13px; flex-shrink: 0; }
-  .btn-repo:hover { border-color: rgba(255,255,255,0.18); color: var(--text); background: rgba(255,255,255,0.04); }
+  .btn-repo svg { width: 15px; height: 15px; }
+  .btn-repo:hover { border-color: rgba(255,255,255,0.2); color: var(--text); background: rgba(255,255,255,0.04); }
 
+  /* ── version tag ── */
+  .version-tag {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--green);
+    background: rgba(46,204,135,0.1);
+    border: 1px solid rgba(46,204,135,0.2);
+    padding: 0.18rem 0.5rem;
+    border-radius: 999px;
+    display: inline-block;
+    margin-top: 0.2rem;
+  }
+
+  /* ── animations ── */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
+    from { opacity: 0; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  @media (max-width: 480px) {
+  /* ── responsive ── */
+  @media (max-width: 520px) {
     .cards { grid-template-columns: 1fr; }
-    html, body { overflow: auto; }
+    h1 { font-size: 2.4rem; }
   }
 </style>
 </head>
@@ -278,25 +301,25 @@
 
 <div class="wrapper">
 
+  <!-- Header -->
   <div class="header">
-    <div class="badge">Chronomètre · Minuteur · Horloge</div>
+    <div class="badge">Application de bureau</div>
     <h1><span>Chrono</span></h1>
-    <p class="subtitle">Disponible en ligne ou à installer sur Windows.</p>
+    <p class="subtitle">Chronomètre · Minuteur · Horloge<br>Disponible en ligne ou à installer sur Windows.</p>
   </div>
 
+  <!-- Cards -->
   <div class="cards">
 
-    <!-- Web -->
+    <!-- Version en ligne -->
     <div class="card online">
-      <div class="card-top">
-        <div class="card-icon">🌐</div>
-        <div>
-          <div class="card-label">Accès immédiat</div>
-          <h2>Version web</h2>
-        </div>
+      <div class="card-icon">🌐</div>
+      <div>
+        <div class="card-label">Accès immédiat</div>
+        <h2>Version web</h2>
       </div>
-      <p>Lancez Chrono directement dans le navigateur, sans installation.</p>
-      <a class="btn btn-online" href="https://nathbu92.github.io/chronoapp/web.html" target="_blank">
+      <p>Lancez Chrono directement dans votre navigateur, sans installation.</p>
+      <a class="btn-main btn-online" href="https://nathbu92.github.io/chronoapp/web.html" target="_blank">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
@@ -305,77 +328,107 @@
       </a>
     </div>
 
-    <!-- Bureau -->
+    <!-- Version bureau -->
     <div class="card desktop">
-      <div class="card-top">
-        <div class="card-icon">🖥️</div>
-        <div>
-          <div class="card-label">Windows · x64</div>
-          <h2>Application <span class="version-tag" id="version-tag">…</span></h2>
-        </div>
+      <div class="card-icon">🖥️</div>
+      <div>
+        <div class="card-label">Windows · x64</div>
+        <h2>Application</h2>
+        <span class="version-tag" id="version-tag">Chargement…</span>
       </div>
-      <p>Mode hors-ligne, mises à jour auto, double écran.</p>
+      <p>Installation complète avec mises à jour automatiques, mode hors-ligne et double écran.</p>
       <div class="dl-group">
-        <a class="btn btn-exe" id="btn-exe" href="#">
+        <a class="btn-main btn-exe" id="btn-exe" href="#" target="_blank">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
             <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
           Télécharger .exe
         </a>
-        <a class="btn btn-zip" id="btn-zip" href="#">
+        <a class="btn-main btn-zip" id="btn-zip" href="#" target="_blank">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
             <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
           Télécharger .zip
         </a>
-        <p class="dl-note" id="dl-note">Récupération de la dernière release…</p>
+        <p class="dl-note" id="dl-note">Récupération de la dernière version…</p>
       </div>
     </div>
 
   </div>
 
-  <!-- Repo -->
-  <div class="footer-row">
+  <!-- Séparateur -->
+  <div class="sep">
     <div class="sep-line"></div>
-    <a class="btn-repo" href="https://github.com/nathbu92/chronoapp" target="_blank">
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
-      </svg>
-      github.com/nathbu92/chronoapp
-    </a>
+    <span class="sep-txt">code source</span>
     <div class="sep-line"></div>
   </div>
+
+  <!-- Bouton repo -->
+  <a class="btn-repo" href="https://github.com/nathbu92/chronoapp" target="_blank">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+    </svg>
+    Voir le dépôt complet — github.com/nathbu92/chronoapp
+  </a>
 
 </div>
 
 <script>
+  const OWNER = 'nathbu92';
+  const REPO  = 'chronoapp';
+  const API   = `https://api.github.com/repos/${OWNER}/${REPO}/releases/latest`;
+
   async function loadRelease() {
     const tagEl  = document.getElementById('version-tag');
     const noteEl = document.getElementById('dl-note');
     const exeBtn = document.getElementById('btn-exe');
     const zipBtn = document.getElementById('btn-zip');
+
     try {
-      const res  = await fetch('https://api.github.com/repos/nathbu92/chronoapp/releases/latest');
-      if (!res.ok) throw new Error();
+      const res  = await fetch(API);
+      if (!res.ok) throw new Error('Release introuvable');
       const data = await res.json();
-      tagEl.textContent = data.tag_name || 'v?';
+
+      const version = data.tag_name || 'v?';
+      tagEl.textContent = version;
+
       const assets = data.assets || [];
       const exe = assets.find(a => a.name.endsWith('.exe'));
       const zip = assets.find(a => a.name.endsWith('.zip') && !a.name.includes('latest'));
-      if (exe) { exeBtn.href = exe.browser_download_url; noteEl.textContent = `Installeur Windows · ${(exe.size/1024/1024).toFixed(1)} Mo`; }
-      else { exeBtn.style.opacity='0.35'; exeBtn.style.pointerEvents='none'; }
-      if (zip) { zipBtn.href = zip.browser_download_url; }
-      else { zipBtn.style.opacity='0.35'; zipBtn.style.pointerEvents='none'; }
+
+      if (exe) {
+        exeBtn.href = exe.browser_download_url;
+        const mb = (exe.size / 1024 / 1024).toFixed(1);
+        noteEl.textContent = `Installeur Windows · ${mb} Mo`;
+      } else {
+        exeBtn.style.opacity = '0.4';
+        exeBtn.style.pointerEvents = 'none';
+      }
+
+      if (zip) {
+        zipBtn.href = zip.browser_download_url;
+      } else {
+        zipBtn.style.opacity = '0.4';
+        zipBtn.style.pointerEvents = 'none';
+      }
+
       if (!exe && !zip) noteEl.textContent = 'Aucun fichier dans la release.';
-    } catch {
-      tagEl.textContent = '—';
-      noteEl.textContent = 'Release introuvable.';
-      exeBtn.style.opacity = zipBtn.style.opacity = '0.35';
-      exeBtn.style.pointerEvents = zipBtn.style.pointerEvents = 'none';
+
+    } catch (e) {
+      tagEl.textContent        = 'Erreur';
+      tagEl.style.color        = '#f66';
+      tagEl.style.background   = 'rgba(255,80,80,0.1)';
+      tagEl.style.borderColor  = 'rgba(255,80,80,0.2)';
+      noteEl.textContent       = 'Impossible de charger la release GitHub.';
+      exeBtn.style.opacity     = '0.4';
+      exeBtn.style.pointerEvents = 'none';
+      zipBtn.style.opacity     = '0.4';
+      zipBtn.style.pointerEvents = 'none';
     }
   }
+
   loadRelease();
 </script>
 </body>
